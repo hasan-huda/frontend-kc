@@ -75,7 +75,7 @@ export default function Home() {
                 <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap-32">
                     <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
                         <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
-                            Sample Recipes
+                            Featured Recipes
                         </h2>
                         {/* <img
                             src="/kanga-1.png"
@@ -111,7 +111,7 @@ export default function Home() {
                                     <div className="flex gap-1.5 items-center text-zinc-600">
                                         <Check className="h-4 w-4 stroke-[3px] text-orange-600" />
                                         <p className="text-sm">
-                                            Verified Purchase
+                                            Verified KangaChef
                                         </p>
                                     </div>
                                 </div>
@@ -146,7 +146,7 @@ export default function Home() {
                                     <div className="flex gap-1.5 items-center text-zinc-600">
                                         <Check className="h-4 w-4 stroke-[3px] text-orange-600" />
                                         <p className="text-sm">
-                                            Verified Purchase
+                                            Verified KangaChef
                                         </p>
                                     </div>
                                 </div>

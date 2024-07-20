@@ -33,6 +33,13 @@ const Navbar = () => {
                   {" "}
                   Sign out
                 </button>
+                <Link
+                  href="/recipes"
+                  className={buttonVariants({ size: "sm", variant: "ghost" })}
+                >
+                  {" "}
+                  Browse Recipes
+                </Link>
                 {isAdmin ? (
                   <Link
                     href="/dashboard"
@@ -72,7 +79,7 @@ const Navbar = () => {
                 </Link>
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
                 <Link
-                  href="/recipes/browse"
+                  href="/recipes"
                   className={buttonVariants({ size: "sm", variant: "ghost" })}
                 >
                   {" "}

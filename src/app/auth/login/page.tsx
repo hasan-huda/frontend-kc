@@ -9,23 +9,13 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [configId, setConfigId] = useState<string | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    const configurationId = localStorage.getItem("configurationId");
-    if (configurationId) setConfigId(configurationId);
-  }, []);
 
   const handleSignIn = async () => {
     try {
       await signIn(email, password);
-      if (configId) {
-        localStorage.removeItem("configurationId");
-        router.push(`/configure/preview?id=${configId}`);
-      } else {
         router.push("/");
-      }
     } catch (error) {
       setError("Failed to sign in");
     }
@@ -34,12 +24,7 @@ export default function Login() {
   const handleGoogleSignUp = async () => {
     try {
       const user = await googleSignUp();
-      if (configId) {
-        localStorage.removeItem("configurationId");
-        router.push(`/configure/preview?id=${configId}`);
-      } else {
         router.push("/");
-      }
     } catch (error) {
       setError("Failed to sign in with Google");
     }

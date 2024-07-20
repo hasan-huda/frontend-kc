@@ -17,15 +17,12 @@ export const useAuth = () => {
         
         if (isAdminStatus) {
           cookie.set('isAdmin', 'true', { expires: 1 }); 
-          console.log('isAdmin stored in cookies');
         } else {
           cookie.remove('isAdmin');
-          console.log('isAdmin removed from cookies');
         }
       } else {
         setIsAdmin(false);
         cookie.remove('isAdmin');
-        console.log('isAdmin removed from cookies');
       }
     });
 
