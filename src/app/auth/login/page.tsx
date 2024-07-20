@@ -3,6 +3,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { useEffect, useState } from "react";
 import { signIn, googleSignUp } from "@/lib/auth"; 
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 
 export default function Login() {
@@ -23,12 +24,27 @@ export default function Login() {
 
   const handleGoogleSignUp = async () => {
     try {
-      const user = await googleSignUp();
+        const user = await googleSignUp();
+
+        // Check if the user exists in Django
+        try {
+            await axios.get(`http://127.0.0.1:8000/api/users/email/${user.email}`);
+        } catch (error:any) {
+            if (error.response && error.response.status === 404) {
+                // If the user does not exist, create a new user
+                await axios.post("http://127.0.0.1:8000/api/users/create/", {
+                    email: user.email
+                });
+            } else {
+                throw error;
+            }
+        }
+
         router.push("/");
     } catch (error) {
-      setError("Failed to sign in with Google");
+        setError("Failed to sign up with Google");
     }
-  };
+};
 
 
 

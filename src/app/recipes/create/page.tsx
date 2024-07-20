@@ -13,13 +13,6 @@ import axios from "axios";
 import { useAuth } from "@/lib/useAuth";
 import { UserNew } from "@/lib/types";
 
-const getCsrfToken = () => {
-  const cookieValue = document.cookie
-    .split('; ')
-    .find(row => row.startsWith('csrftoken'))
-    ?.split('=')[1];
-  return cookieValue;
-};
 
 const CreateRecipe = () => {
   const { toast } = useToast();
@@ -33,15 +26,31 @@ const CreateRecipe = () => {
   const [instructions, setInstructions] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const router = useRouter();
-  const csrfToken = getCsrfToken();
+  const [userRecipes, setUserRecipes] = useState<number[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
+
   useEffect(() => {
     if (user) {
-      setNewUser({
-        uid: user.uid,
-        email: user.email ?? "",
-      });
+        setNewUser({
+            uid: user.uid,
+            email: user.email ?? "",
+        });
+        const fetchUserData = async () => {
+            try {
+                const userIdResponse = await axios.get(`http://127.0.0.1:8000/api/users/email/${user.email}`);
+                const fetchedUserId = userIdResponse.data.id;
+                setUserId(fetchedUserId);
+
+                const userResponse = await axios.get(`http://127.0.0.1:8000/api/users/${fetchedUserId}`);
+                setUserRecipes(userResponse.data.recipes);
+            } catch (error) {
+                console.error("Error fetching user data", error);
+            }
+        };
+
+        fetchUserData();
     }
-  }, [user]);
+}, [user]);
 
   const { startUpload, isUploading } = useUploadThing("imageUploader", {
     onClientUploadComplete: ([data]) => {
@@ -69,35 +78,45 @@ const CreateRecipe = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(imageUrl)
+    console.log(imageUrl);
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/recipes/create/", {
-        title,
-        description,
-        ingredients,
-        instructions,
-        image_url: imageUrl,
-        user_email: newUser?.email
-      });
-
-      if (response.status === 200) {
-        router.push("/");
-      } else {
-        console.log(response.status)
-        toast({
-          title: "Error creating recipe",
-          description: "There was an error creating your recipe.",
-          variant: "destructive"
+        const response = await axios.post("http://127.0.0.1:8000/api/recipes/create/", {
+            title,
+            description,
+            ingredients,
+            instructions,
+            image_url: imageUrl,
+            user_email: newUser?.email
         });
-      }
+
+        if (response.status === 201) {
+            const recipeId = response.data.id;
+
+            if (newUser?.email && userId) {
+                const updatedRecipes = [...userRecipes, recipeId];
+                await axios.put(`http://127.0.0.1:8000/api/users/${userId}/update/`, {
+                    recipes: updatedRecipes
+                });
+                setUserRecipes(updatedRecipes);
+            }
+
+            router.push("/");
+        } else {
+            console.log(response.status);
+            toast({
+                title: "Error creating recipe",
+                description: "There was an error creating your recipe.",
+                variant: "destructive"
+            });
+        }
     } catch (error) {
-      toast({
-        title: "Error creating recipe",
-        description: "There was an error creating your recipe.",
-        variant: "destructive"
-      });
+        toast({
+            title: "Error creating recipe",
+            description: "There was an error creating your recipe.",
+            variant: "destructive"
+        });
     }
-  };
+};
 
   const [isPending, startTransition] = useTransition();
 

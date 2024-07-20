@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { signUp, googleSignUp } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { UserNew } from "@/lib/types";
+import axios from "axios";
 
 export default function Register() {
     const [email, setEmail] = useState("");
@@ -14,22 +15,60 @@ export default function Register() {
 
     const handleSignUp = async () => {
         try {
-            await signUp(email, password);
+            const user = await signUp(email, password);
+
+            // Check if the user exists in Django
+            try {
+                await axios.get(
+                    `http://127.0.0.1:8000/api/users/email/${user.email}`
+                );
+            } catch (error: any) {
+                if (error.response && error.response.status === 404) {
+                    // If the user does not exist, create a new user
+                    await axios.post(
+                        "http://127.0.0.1:8000/api/users/create/",
+                        {
+                            email: user.email,
+                        }
+                    );
+                } else {
+                    throw error;
+                }
+            }
+
             router.push("/");
         } catch (error) {
-            setError("Failed to sign in");
+            setError("Failed to sign up");
         }
     };
-
     const handleGoogleSignUp = async () => {
         try {
             const user = await googleSignUp();
+
+            // Check if the user exists in Django
+            try {
+                await axios.get(
+                    `http://127.0.0.1:8000/api/users/email/${user.email}`
+                );
+            } catch (error:any) {
+                if (error.response && error.response.status === 404) {
+                    // If the user does not exist, create a new user
+                    await axios.post(
+                        "http://127.0.0.1:8000/api/users/create/",
+                        {
+                            email: user.email,
+                        }
+                    );
+                } else {
+                    throw error;
+                }
+            }
+
             router.push("/");
         } catch (error) {
-            setError("Failed to sign in with Google");
+            setError("Failed to sign up with Google");
         }
     };
-
     return (
         <>
             <div className="bg-slate-50 min-h-[calc(100vh-3.5rem-1px)]">
