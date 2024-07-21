@@ -1,7 +1,4 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
-import axios from "axios";
+import axios from 'axios';
 import {
   Card,
   CardContent,
@@ -9,9 +6,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { AlarmClock } from "lucide-react";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+} from '@/components/ui/card';
+import { AlarmClock } from 'lucide-react';
+import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 
 interface Recipe {
   id: number;
@@ -24,23 +21,19 @@ interface Recipe {
   user_email: string;
 }
 
-const RecipeDetail = () => {
-  const { id } = useParams(); // useParams to get the dynamic route parameter
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const router = useRouter();
+export async function generateStaticParams() {
+  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}api/recipes/`);
+  const recipes = response.data;
 
-  useEffect(() => {
-    const fetchRecipe = async () => {
-      try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/recipes/${id}`);
-        setRecipe(response.data);
-      } catch (error) {
-        console.error("Error fetching recipe", error);
-      }
-    };
+  return recipes.map((recipe: { id: number }) => ({
+    id: recipe.id.toString(),
+  }));
+}
 
-    fetchRecipe();
-  }, [id]);
+const RecipeDetail = async ({ params }: { params: { id: string } }) => {
+  const { id } = params;
+  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}api/recipes/${id}`);
+  const recipe: Recipe = response.data;
 
   const formatCookingTime = (minutes: number) => {
     if (minutes < 60) {
@@ -48,17 +41,13 @@ const RecipeDetail = () => {
     } else {
       const hours = Math.floor(minutes / 60);
       const remainingMinutes = minutes % 60;
-      return `${hours} hr${remainingMinutes > 0 ? ` ${remainingMinutes} min` : ""}`;
+      return `${hours} hr${remainingMinutes > 0 ? ` ${remainingMinutes} min` : ''}`;
     }
   };
 
   const getEmailPrefix = (email: string) => {
-    return email.split("@")[0];
+    return email.split('@')[0];
   };
-
-  if (!recipe) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <MaxWidthWrapper className="py-4">

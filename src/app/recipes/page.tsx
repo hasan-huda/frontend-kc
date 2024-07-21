@@ -29,9 +29,8 @@ const BrowseRecipes = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/recipes/");
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}api/recipes/`);
         setRecipes(response.data);
-        console.log(response.data)
       } catch (error) {
         console.error("Error fetching recipes", error);
       }

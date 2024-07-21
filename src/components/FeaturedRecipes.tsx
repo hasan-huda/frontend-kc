@@ -32,7 +32,7 @@ const FeaturedRecipes = () => {
     const fetchRecipes = async () => {
       try {
         const promises = featuredRecipeIds.map(id =>
-          axios.get(`http://127.0.0.1:8000/api/recipes/${id}`).then(response => response.data)
+          axios.get(`${process.env.NEXT_PUBLIC_API_URL}api/recipes/${id}`).then(response => response.data)
         );
         const fetchedRecipes = await Promise.all(promises);
         setRecipes(fetchedRecipes);

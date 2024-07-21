@@ -39,13 +39,13 @@ const CreateRecipe = () => {
             const fetchUserData = async () => {
                 try {
                     const userIdResponse = await axios.get(
-                        `http://127.0.0.1:8000/api/users/email/${user.email}`
+                        `${process.env.NEXT_PUBLIC_API_URL}api/users/email/${user.email}`
                     );
                     const fetchedUserId = userIdResponse.data.id;
                     setUserId(fetchedUserId);
 
                     const userResponse = await axios.get(
-                        `http://127.0.0.1:8000/api/users/${fetchedUserId}`
+                        `${process.env.NEXT_PUBLIC_API_URL}api/users/${fetchedUserId}`
                     );
                     setUserRecipes(userResponse.data.recipes);
                 } catch (error) {
@@ -86,7 +86,7 @@ const CreateRecipe = () => {
         console.log(imageUrl);
         try {
             const response = await axios.post(
-                "http://127.0.0.1:8000/api/recipes/create/",
+                `${process.env.NEXT_PUBLIC_API_URL}api/recipes/create/`,
                 {
                     title,
                     description,
@@ -104,7 +104,7 @@ const CreateRecipe = () => {
                 if (newUser?.email && userId) {
                     const updatedRecipes = [...userRecipes, recipeId];
                     await axios.put(
-                        `http://127.0.0.1:8000/api/users/${userId}/update/`,
+                        `${process.env.NEXT_PUBLIC_API_URL}api/users/${userId}/update/`,
                         {
                             recipes: updatedRecipes,
                         }
@@ -114,7 +114,6 @@ const CreateRecipe = () => {
 
                 router.push(`/recipes/${recipeId}`);
             } else {
-                console.log(response.status);
                 toast({
                     title: "Error creating recipe",
                     description: "There was an error creating your recipe.",

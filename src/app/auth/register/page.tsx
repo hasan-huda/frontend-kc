@@ -20,13 +20,13 @@ export default function Register() {
             // Check if the user exists in Django
             try {
                 await axios.get(
-                    `http://127.0.0.1:8000/api/users/email/${user.email}`
+                    `${process.env.NEXT_PUBLIC_API_URL}api/users/email/${user.email}`
                 );
             } catch (error: any) {
                 if (error.response && error.response.status === 404) {
                     // If the user does not exist, create a new user
                     await axios.post(
-                        "http://127.0.0.1:8000/api/users/create/",
+                        `${process.env.NEXT_PUBLIC_API_URL}api/users/create/`,
                         {
                             email: user.email,
                         }
@@ -48,13 +48,13 @@ export default function Register() {
             // Check if the user exists in Django
             try {
                 await axios.get(
-                    `http://127.0.0.1:8000/api/users/email/${user.email}`
+                    `${process.env.NEXT_PUBLIC_API_URL}api/users/email/${user.email}`
                 );
             } catch (error:any) {
                 if (error.response && error.response.status === 404) {
                     // If the user does not exist, create a new user
                     await axios.post(
-                        "http://127.0.0.1:8000/api/users/create/",
+                        "${process.env.NEXT_PUBLIC_API_URL}api/users/create/",
                         {
                             email: user.email,
                         }
