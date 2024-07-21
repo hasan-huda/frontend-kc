@@ -2,6 +2,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { ArrowRight, Check, Star } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import FeaturedRecipes from "@/components/FeaturedRecipes";
 
 // import { app } from "@/lib/firebaseConfig";
 
@@ -23,7 +24,8 @@ export default function Home() {
                                 Stomach
                             </h1>
                             <p className="mt-8 text-lg lg:pr-10 max-w-prose text-center lg:text-left text-balance md:text-wrap">
-                            Kangacook invites you to share your cooking ideas, explore recipes from{" "}
+                                Kangacook invites you to share your cooking
+                                ideas, explore recipes from{" "}
                                 <span className="font-semibold">
                                     all over the world
                                 </span>
@@ -66,123 +68,52 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-
-
                 </MaxWidthWrapper>
             </section>
 
-            <section className="bg-slate-100 py-24">
-                <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap-32">
-                    <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
-                        <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
-                            Featured Recipes
-                        </h2>
-                        {/* <img
-                            src="/kanga-1.png"
-                            className="w-24 order-0 lg:order-2"
-                        /> */}
-                    </div>
-                    <div className="mx-auto grid max-w-2xl grid-cols-col px-4 lg:mx-0 lg:max-w-none lg:grid-cols-2 gap-y-16">
-                        <div className="flex flex-auto flex-col gap-4 lg:pr-8 xl:pr-20">
-                            <div className="flex gap-0.5 mb-5">
-                                <Star className="h-5 w-5 text-orange-600 fill-orange-600" />
-                                <Star className="h-5 w-5 text-orange-600 fill-orange-600" />
-                                <Star className="h-5 w-5 text-orange-600 fill-orange-600" />
-                                <Star className="h-5 w-5 text-orange-600 fill-orange-600" />
-                                <Star className="h-5 w-5 text-orange-600 fill-orange-600" />
-                            </div>
-                            <div className="text-lg leading-8">
-                                <p>
-                                    "The case feels durable and I even got a
-                                    compliment on the design. Had the case for
-                                    two and a half months now and{" "}
-                                    <span className="p-0.5 bg-slate-800 text-white">
-                                        the image is super clear
-                                    </span>
-                                    , on the case I had before, the image
-                                    started fading into yellow-ish color after a
-                                    couple weeks. Love it."
-                                </p>
-                            </div>
-                            <div className="flex gap-4 mt-2">
-
-                                <div className="flex flex-col">
-                                    <p className="font-semibold">Johnathan</p>
-                                    <div className="flex gap-1.5 items-center text-zinc-600">
-                                        <Check className="h-4 w-4 stroke-[3px] text-orange-600" />
-                                        <p className="text-sm">
-                                            Verified KangaChef
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Review #2 */}
-                        <div className="flex flex-auto flex-col gap-4 lg:pr-8 xl:pr-20">
-                            <div className="flex gap-0.5 mb-5">
-                                <Star className="h-5 w-5 text-orange-600 fill-orange-600" />
-                                <Star className="h-5 w-5 text-orange-600 fill-orange-600" />
-                                <Star className="h-5 w-5 text-orange-600 fill-orange-600" />
-                                <Star className="h-5 w-5 text-orange-600 fill-orange-600" />
-                                <Star className="h-5 w-5 text-orange-600 fill-orange-600" />
-                            </div>
-                            <div className="text-lg leading-8">
-                                <p>
-                                    "I usually keep my phone together with my
-                                    keys in my pocket and that led to some
-                                    pretty heavy scratchmarks on all of my last
-                                    phone cases. This one besides a barely
-                                    noticeable scratch on the corenr{" "}
-                                    <span className="p-0.5 bg-slate-800 text-white">
-                                        looks brand new after about half a year
-                                    </span>
-                                    . I dig it.""
-                                </p>
-                            </div>
-                            <div className="flex gap-4 mt-2">
-
-                                <div className="flex flex-col">
-                                    <p className="font-semibold">Josh</p>
-                                    <div className="flex gap-1.5 items-center text-zinc-600">
-                                        <Check className="h-4 w-4 stroke-[3px] text-orange-600" />
-                                        <p className="text-sm">
-                                            Verified KangaChef
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </MaxWidthWrapper>
-
-                <div className="pt-16">
-                </div>
-            </section>
-            <section>
-                <MaxWidthWrapper className="py-24">
-                    <div className="mx-auto max-w-2xl sm:text-center">
-                        <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
-                            Upload your recipe {" "}
-                            <span className="relative px-2 bg-orange-600 text-white">
-                                today
-                            </span>
-                        </h2>
-                    </div>
-                    <div className="mx-auto max-w-6xl px-6 lg:px-8">
-                        <div className="relative flex flex-col items-center md:grid grid-cols-2 gap-40">
-
-                        </div>
-                    </div>
-
-                    <ul className="mx-auto mt-12 max-w-prose sm:text-lg space-y-2 w-fit">
-                        
+            <section className="bg-slate-100 py-8">
+                <MaxWidthWrapper className="py-2">
+                    <FeaturedRecipes />
+                    <ul className="mx-auto max-w-prose sm:text-lg space-y-2 w-fit">
                         <div className="flex justify-center">
                             <Link
                                 className={buttonVariants({
                                     size: "lg",
                                     className: "mx-auto mt-8",
                                 })}
-                                href="/configure/upload"
+                                href="/recipes"
+                            >
+                                Browse All Recipes{" "}
+                                <ArrowRight className="h-4 w-4 ml-1.5" />
+                            </Link>
+                        </div>
+                    </ul>
+                </MaxWidthWrapper>
+
+                <div className="pt-8"></div>
+            </section>
+            <section>
+                <MaxWidthWrapper className="py-24">
+                    <div className="mx-auto max-w-2xl sm:text-center">
+                        <h2 className="order-1 mt-2 tracking-tight text-center text-balance !leading-tight font-bold text-5xl md:text-6xl text-gray-900">
+                            Upload your recipe{" "}
+                            <span className="relative px-2 bg-orange-600 text-white">
+                                today
+                            </span>
+                        </h2>
+                    </div>
+                    <div className="mx-auto max-w-6xl px-6 lg:px-8">
+                        <div className="relative flex flex-col items-center md:grid grid-cols-2 gap-40"></div>
+                    </div>
+
+                    <ul className="mx-auto mt-12 max-w-prose sm:text-lg space-y-2 w-fit">
+                        <div className="flex justify-center">
+                            <Link
+                                className={buttonVariants({
+                                    size: "lg",
+                                    className: "mx-auto mt-8",
+                                })}
+                                href="/recipes/create"
                             >
                                 Create your recipe now{" "}
                                 <ArrowRight className="h-4 w-4 ml-1.5" />

@@ -4,7 +4,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-white h-20 relative">
+    <footer className="bg-white h-20 relative mt-4">
       <MaxWidthWrapper>
         <div className="border-t border-gray-200" />
 
